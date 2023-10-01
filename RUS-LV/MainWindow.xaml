@@ -1,0 +1,21 @@
+﻿<Window x:Class="LV_RUS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LV_RUS"
+        mc:Ignorable="d"
+        Title="Latvian dictionary" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="OutputField" HorizontalAlignment="Center" Height="90" Margin="0,10,0,0" VerticalAlignment="Top" Width="780" FontFamily="Times New Roman" FontSize="62" TextAlignment="Center" FontWeight="Bold" IsEnabled="False"/>
+        <Button x:Name="AddButton" Content="Добавить" HorizontalAlignment="Left" Height="80" Margin="10,121,0,0" VerticalAlignment="Top" Width="170" FontSize="32" FontFamily="Times New Roman" FontWeight="Bold" Click="AddButton_Click"/>
+        <Button x:Name="RemoveButton" Content="Удалить" HorizontalAlignment="Left" Height="80" Margin="188,121,0,0" VerticalAlignment="Top" Width="170" FontFamily="Times New Roman" FontSize="32" FontWeight="Bold" Click="RemoveButton_Click"/>
+        <Button x:Name="FindWordButton" Content="Найти " HorizontalAlignment="Left" Height="80" Margin="366,121,0,0" VerticalAlignment="Top" Width="170" FontFamily="Times New Roman" FontSize="32" FontWeight="Bold" Click="FindWordButton_Click"/>
+        <TextBox x:Name="EnterField" HorizontalAlignment="Left" Height="90" Margin="10,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="526" FontSize="72" FontFamily="Times New Roman" FontWeight="Bold"/>
+        <Button x:Name="CorrectnessButton" Content="Проверить" HorizontalAlignment="Left" Height="80" Margin="584,325,0,0" VerticalAlignment="Top" Width="170" FontSize="32" FontFamily="Times New Roman" FontWeight="Bold" Click="CorrectnessButton_Click"/>
+        <Image x:Name="ImageLogo" HorizontalAlignment="Left" Height="220" Margin="541,105,0,0" Width="234" Source="/vienkarss_pilnkrasu_rgb_v_LV-40.png" VerticalAlignment="Top"/>
+        <Button x:Name="GetDictionaryButton" Content="Словарь" HorizontalAlignment="Left" Height="80" Margin="10,230,0,0" VerticalAlignment="Top" Width="170" FontSize="32" FontFamily="Times New Roman" FontWeight="Bold" Click="GetDictionaryButton_Click"/>
+        <Button x:Name="GenerateButton" Content="Сгенерировать" HorizontalAlignment="Left" Height="80" Margin="188,230,0,0" VerticalAlignment="Top" Width="170" FontFamily="Times New Roman" FontWeight="Bold" BorderBrush="Black" FontSize="22" Click="GenerateButton_Click"/>
+
+    </Grid>
+</Window>
