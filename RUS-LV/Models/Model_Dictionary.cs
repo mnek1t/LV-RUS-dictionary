@@ -37,16 +37,33 @@ namespace LV_RUS.Models
         { //there is no logic, because constructor takes reference types
             return $"Слово {key} удалено";
         }
-        public string GetRandomWord()
+        public string GetRandomWord(bool change)
         {
-            if (dictionary.Count>0)
+            if (change == true)
             {
-                int index = new Random().Next(0, dictionary.Count); // initialize index with random value from 0 to last value of dictionary
-                return dictionary[keys[index]];
+                if (dictionary.Count > 0)
+                {
+                    int index = new Random().Next(0, dictionary.Count); // initialize index with random value from 0 to last value of dictionary
+                    return keys[index];
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
-                return null;
+
+
+                if (dictionary.Count > 0)
+                {
+                    int index = new Random().Next(0, dictionary.Count); // initialize index with random value from 0 to last value of dictionary
+                    return dictionary[keys[index]];
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Diagnostics;
 using System;
 using Microsoft.Win32;
+using System.Windows.Controls;
 
 namespace LV_RUS
 {
@@ -16,7 +17,8 @@ namespace LV_RUS
         public string LatvianWordsPATH { get; private set; } = "LatvianWords.txt"; // file for storing only latvian words
         private StreamWriter writer;
         private string key; // variable for writing a latvian word to  Dictionary.txt and LatvianWords.txt files
-        private string value;// variable for writing a russian word to  Dictionary.txt and RussianWords.txt files
+        private string value;// variable for writing a russian word to  Dictionary.txt and RussianWords.txt files;
+        private static bool isCheckLv;
         public MainWindow()
         {
             InitializeComponent();
@@ -48,7 +50,7 @@ namespace LV_RUS
             {
                 foreach (char c in text)// we check each character of the string 
                 {
-                    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+                    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == 'ž') || (c == 'č') || (c == 'ķ') || (c == 'š');
                 }
                 return false;
             }
@@ -58,6 +60,22 @@ namespace LV_RUS
 
             }
         } // if user inputs word in latvian
+        private bool IsRussianInput(string text) // if user entered in russian
+        {
+            if (text != null)
+            {
+                foreach (char c in text) // we check each character of the string
+                {
+                    return (c >= 'А' && c <= 'Я') || (c >= 'а' && c <= 'я');
+                }
+                return false;
+            }
+            else
+            {
+                return false;
+
+            }
+        }
         private void CreationFile()
         {
             if (!File.Exists(DictionaryPATH))
@@ -165,21 +183,38 @@ namespace LV_RUS
         private void GenerateButton_Click(object sender, RoutedEventArgs e) // means to generate a random word from dictionary
         {
             OutputField.FontSize = 62;
-            OutputField.Text = presenter.Get();
+            OutputField.Text = presenter.Get(false);
+            isCheckLv = true;
             EnterField.Text = string.Empty;
             CorrectnessButton.IsEnabled = true; //the idea is to genetrate word and if user input something, make Checker button active
         }
         private void CorrectnessButton_Click(object sender, RoutedEventArgs e) //enable only after generating a word
         {
-            if (IsLatvianInput(EnterField.Text))
+            if (isCheckLv)
             {
-                OutputField.FontSize = 62;
-                OutputField.Text = presenter.Check(EnterField.Text, OutputField.Text);
-                EnterField.Text = string.Empty;
+                if (IsLatvianInput(EnterField.Text))
+                {
+                    OutputField.FontSize = 62;
+                    OutputField.Text = presenter.Check(EnterField.Text, OutputField.Text, isCheckLv);
+                    EnterField.Text = string.Empty;
+                }
+                else
+                {
+                    MessageBox.Show("Необходимо ввести значение на латышском в поле снизу!", "Внимание!");
+                }
             }
             else
             {
-                MessageBox.Show("Необходимо ввести значение на латышском в поле снизу!", "Внимание!");
+                if (IsRussianInput(EnterField.Text))
+                {
+                    OutputField.FontSize = 62;
+                    OutputField.Text = presenter.Check(EnterField.Text, OutputField.Text, isCheckLv);
+                    EnterField.Text = string.Empty;
+                }
+                else
+                {
+                    MessageBox.Show("Необходимо ввести значение на русском в поле снизу!", "Внимание!");
+                }
             }
         }
         private void FindWordButton_Click(object sender, RoutedEventArgs e) //find a word entered in the enterField if such exists in dictionary 
@@ -210,6 +245,15 @@ namespace LV_RUS
                 MessageBox.Show("Ошибка: " + ex.Message);
             }
             
-        }  
+        }
+
+        private void GenerateAnotherLanguage_Click(object sender, RoutedEventArgs e)
+        {
+            OutputField.FontSize = 62;
+            OutputField.Text = presenter.Get(true);
+            EnterField.Text = string.Empty;
+            isCheckLv = false;
+            CorrectnessButton.IsEnabled = true;
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace LV_RUS
             {
                 foreach (char c in text) // we check each character of the string 
                 {
-                    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+                    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == 'ž') || (c == 'č') || (c == 'ķ') || (c == 'š');
                 }
                 return false;
             }
@@ -64,9 +64,9 @@ namespace LV_RUS
             }
             else
             { // TO TRY: REDO INITIALIZATION OF KEY AND VALUE NOT USING A TUPLES
-                outputField.Text = presenter.Add(LVInput.Text, RUInput.Text).Item1;
-                key = presenter.Add(LVInput.Text, RUInput.Text).Item2;
-                value = presenter.Add(LVInput.Text, RUInput.Text).Item3;
+                outputField.Text = presenter.Add(LVInput.Text.ToLower(), RUInput.Text.ToLower()).Item1;
+                key = presenter.Add(LVInput.Text.ToLower(), RUInput.Text.ToLower()).Item2;
+                value = presenter.Add(LVInput.Text.ToLower(), RUInput.Text.ToLower()).Item3;
                 this.Close();
             }
         }

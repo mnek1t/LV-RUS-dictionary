@@ -98,9 +98,9 @@ namespace LV_RUS.Presenters
             }
             return $"Слова {key} не найдено";
         }
-        public string Get() //get word for GenerateButton
+        public string Get(bool change) //get word for GenerateButton
         {
-            return dictionary.GetRandomWord();
+            return dictionary.GetRandomWord(change);
         }
         public string Get(string key) // get word for FindWordButton
         {
@@ -110,19 +110,33 @@ namespace LV_RUS.Presenters
             }
             return "Слово в словаре отсутвует";
         }
-        public string Check(string key, string value) // check user input
+        public string Check(string key, string value, bool lvCheck) // check user input
         {
             string message = " ";
-            try
+            if (lvCheck)
             {
-                if (dictionary[key.ToLower()] == value.ToLower())
+                try
+                {
+                    if (dictionary[key.ToLower()] == value.ToLower())
+                    {
+                        message = "Correct";
+                    }
+                }
+                catch (Exception)
+                {
+                    message = "Incorrect";
+                }
+            }
+            else
+            {      
+                if (dictionary[value.ToLower()] == key.ToLower())
                 {
                     message = "Correct";
                 }
-            }
-            catch (Exception)
-            {
-                message = "Incorrect";
+                else
+                {
+                    message = "Incorrect";
+                }
             }
             return message;
         }

@@ -20,7 +20,7 @@ namespace RUS_LV.Windows
             {
                 foreach (char c in text) // we check each character of the string
                 {
-                    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+                    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c=='ž') || (c == 'č') || (c == 'ķ') || (c == 'š');
                 }
                 return false;
             }

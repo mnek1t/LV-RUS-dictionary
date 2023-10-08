@@ -16,6 +16,7 @@
         <Image x:Name="ImageLogo" HorizontalAlignment="Left" Height="220" Margin="541,105,0,0" Width="234" Source="/vienkarss_pilnkrasu_rgb_v_LV-40.png" VerticalAlignment="Top"/>
         <Button x:Name="GetDictionaryButton" Content="Словарь" HorizontalAlignment="Left" Height="80" Margin="10,230,0,0" VerticalAlignment="Top" Width="170" FontSize="32" FontFamily="Times New Roman" FontWeight="Bold" Click="GetDictionaryButton_Click"/>
         <Button x:Name="GenerateButton" Content="Сгенерировать" HorizontalAlignment="Left" Height="80" Margin="188,230,0,0" VerticalAlignment="Top" Width="170" FontFamily="Times New Roman" FontWeight="Bold" BorderBrush="Black" FontSize="22" Click="GenerateButton_Click"/>
+        <Button x:Name="GenerateAnotherLanguage" Content="Сгенерировать(LV)" HorizontalAlignment="Left" Height="80" Margin="366,230,0,0" VerticalAlignment="Top" Width="170" FontSize="19" FontFamily="Times New Roman" FontWeight="Bold" Click="GenerateAnotherLanguage_Click"/>
 
     </Grid>
 </Window>
