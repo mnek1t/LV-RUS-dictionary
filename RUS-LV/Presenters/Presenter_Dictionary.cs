@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -124,7 +125,8 @@ namespace LV_RUS.Presenters
                 }
                 catch (Exception)
                 {
-                    message = "Incorrect";
+                    var keyValuePair = dictionary.FirstOrDefault(x => x.Value == value);
+                    message = "Incorrect:" + value + " - " + keyValuePair.Key;
                 }
             }
             else
@@ -135,7 +137,7 @@ namespace LV_RUS.Presenters
                 }
                 else
                 {
-                    message = "Incorrect";
+                    message = "Incorrect: " + value + " - " + dictionary[value.ToLower()];
                 }
             }
             return message;

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
 using LV_RUS.Presenters;
 
 namespace LV_RUS

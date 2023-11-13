@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LV_RUS.Models
 {
@@ -17,6 +18,10 @@ namespace LV_RUS.Models
         public string this[string index] // indexer for reading a value from dictionary 
         {
             get { return dictionary[index]; }
+        }
+        public KeyValuePair<string, string> FirstOrDefault(Func <KeyValuePair<string,string>, bool> predicate)
+        {
+            return dictionary.FirstOrDefault(predicate);
         }
         public string AddWord(string key, string value) // add word
         {   // in this case we write logic because in presenter and adding window we write new word to string, it is a value type, it does not

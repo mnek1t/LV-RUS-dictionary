@@ -4,8 +4,6 @@ using RUS_LV.Windows;
 using System.IO;
 using System.Diagnostics;
 using System;
-using Microsoft.Win32;
-using System.Windows.Controls;
 
 namespace LV_RUS
 {
