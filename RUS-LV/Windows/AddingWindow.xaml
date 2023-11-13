@@ -11,8 +11,8 @@
         <TextBox x:Name="LVInput" HorizontalAlignment="Left" Height="85" Margin="113,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="677" FontSize="62" FontFamily="Times New Roman" FontWeight="Bold" BorderBrush="Black"/>
         <TextBox x:Name="RUInput" HorizontalAlignment="Left" Height="77" Margin="113,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="677" FontSize="62" FontFamily="Times New Roman" FontWeight="Bold" BorderBrush="Black"/>
         <Label Content="RU" HorizontalAlignment="Left" Height="77" Margin="10,140,0,0" VerticalAlignment="Top" Width="98" FontFamily="Times New Roman" FontSize="68"/>
-        <Button x:Name="OKButton" Content="OK" HorizontalAlignment="Left" Height="80" Margin="604,325,0,0" VerticalAlignment="Top" Width="170" Click="OKButton_Click" BorderBrush="Black" FontFamily="Times New Roman" FontSize="72"/>
+        <Button x:Name="OKButton" Content="OK" HorizontalAlignment="Left" Height="80" Margin="620,236,0,0" VerticalAlignment="Top" Width="170" Click="OKButton_Click" BorderBrush="Black" FontFamily="Times New Roman" FontSize="72"/>
         <Image x:Name="Image2" HorizontalAlignment="Left" Height="182" Margin="113,225,0,0" VerticalAlignment="Top" Width="375" Source="/Windows/addiction-bet-betting-casino-3.jpg" IsEnabled="False"/>
-
+        <Button x:Name="CancelButton" Content="Отмена" HorizontalAlignment="Left" Height="80" Margin="620,327,0,0" VerticalAlignment="Top" Width="170" Click="Cancel_Click" BorderBrush="Black" FontFamily="Times New Roman" FontSize="50"/>
     </Grid>
 </Window>

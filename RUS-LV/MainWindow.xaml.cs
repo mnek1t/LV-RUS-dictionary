@@ -13,9 +13,8 @@ namespace LV_RUS
         public string DictionaryPATH { get; private set; } = "Dictionary.txt"; // file for stroing latvian and russian words
         public string RussianWordsPATH { get; private set; } = "RussianWords.txt"; //file for storing only russian words
         public string LatvianWordsPATH { get; private set; } = "LatvianWords.txt"; // file for storing only latvian words
-        private StreamWriter writer;
-        private string key; // variable for writing a latvian word to  Dictionary.txt and LatvianWords.txt files
-        private string value;// variable for writing a russian word to  Dictionary.txt and RussianWords.txt files;
+        //private string key; // variable for writing a latvian word to  Dictionary.txt and LatvianWords.txt files
+        //private string value;// variable for writing a russian word to  Dictionary.txt and RussianWords.txt files;
         private static bool isCheckLv;
         public MainWindow()
         {
@@ -23,7 +22,7 @@ namespace LV_RUS
             CreationFile();
             CorrectnessButton.IsEnabled = false;
             presenter = new Presenter_Dictionary(this);
-            //close access to files
+            //close access to files;
             File.SetAttributes(DictionaryPATH, FileAttributes.ReadOnly);
             File.SetAttributes(RussianWordsPATH, FileAttributes.ReadOnly);
             File.SetAttributes(LatvianWordsPATH, FileAttributes.ReadOnly);
@@ -55,7 +54,6 @@ namespace LV_RUS
             else
             {
                 return false;
-
             }
         } // if user inputs word in latvian
         private bool IsRussianInput(string text) // if user entered in russian
@@ -74,46 +72,46 @@ namespace LV_RUS
 
             }
         }
-        private void CreationFile()
+        private void CreationFile() // creates files if they do not exist
         {
             if (!File.Exists(DictionaryPATH))
             {
-                writer = new StreamWriter(DictionaryPATH);
+                _ = new StreamWriter(DictionaryPATH);
             }
             if (!File.Exists(RussianWordsPATH))
             {
-                writer = new StreamWriter(RussianWordsPATH);
+                _ = new StreamWriter(RussianWordsPATH);
             }
             if (!File.Exists(LatvianWordsPATH))
             {
-                writer = new StreamWriter(LatvianWordsPATH);
+                _ = new StreamWriter(LatvianWordsPATH);
             }
 
-        } // creates files if thy do not exist
-        // Handling button clicks
+        } 
+        #region Handling button clicks
         private void AddButton_Click(object sender, RoutedEventArgs e) //add word and its translation to the dictionary
         {
-            
-            AddingWindow taskWindow = new AddingWindow(OutputField, key, value); // window for users input
-            taskWindow.ShowDialog(); // ShowDialog(), stop execution below after closing taskWindow
-            CorrectnessButton.IsEnabled = false;
-            OutputField.FontSize = 62;
-            GetAccessFile();
-            if (OutputField.Text != "Слово уже существует!" )
+            OutputField.Text = "";
+            AddingWindow addingWindow = new AddingWindow(OutputField,IsLatvianInput); // window for users input
+            addingWindow.ShowDialog(); // ShowDialog(), stop execution below after closing taskWindow
+            if (OutputField.Text != ""&& OutputField.Text != "Слово уже существует!")
             {
+                CorrectnessButton.IsEnabled = false;
+                OutputField.FontSize = 62;
                 try // Write to file if word-key does not exist already
                 {
-                    key = taskWindow.ReturnWordsToFile().Item1;
-                    value = taskWindow.ReturnWordsToFile().Item2;
-                    using (writer = File.AppendText(DictionaryPATH))
+                    GetAccessFile();
+                    string key = addingWindow.KeyValue.Key;
+                    string value = addingWindow.KeyValue.Value;
+                    using (var writer = File.AppendText(DictionaryPATH))
                     {
                         writer.WriteLine($"{key} - {value}");
                     }
-                    using (writer = File.AppendText(RussianWordsPATH))
+                    using (var writer = File.AppendText(RussianWordsPATH))
                     {
                         writer.WriteLine(value);
                     }
-                    using (writer = File.AppendText(LatvianWordsPATH))
+                    using (var writer = File.AppendText(LatvianWordsPATH))
                     {
                         writer.WriteLine(key);
                     }
@@ -124,59 +122,61 @@ namespace LV_RUS
                 }
                 finally
                 { //close access to files
-                    File.SetAttributes(DictionaryPATH, FileAttributes.ReadOnly); 
+                    File.SetAttributes(DictionaryPATH, FileAttributes.ReadOnly);
                     File.SetAttributes(RussianWordsPATH, FileAttributes.ReadOnly);
                     File.SetAttributes(LatvianWordsPATH, FileAttributes.ReadOnly);
                 }
-            }  
+            }
+            
         } 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)//remove word and its translation from the dictionary
         {
-            RemovingWindow removeWindow = new RemovingWindow(OutputField, presenter); // window for users input
+            RemovingWindow removeWindow = new RemovingWindow(OutputField, presenter, IsLatvianInput); // window for users input
             removeWindow.ShowDialog();
-            CorrectnessButton.IsEnabled = false;
-            OutputField.FontSize = 62;
-            GetAccessFile();
-
-            try
-            { //Firstly clear file:
-                File.WriteAllText(DictionaryPATH, string.Empty);
-                File.WriteAllText(RussianWordsPATH, string.Empty);
-                File.WriteAllText(LatvianWordsPATH, string.Empty);
-                //Write to file new information without deleted word -key and -value 
-                using (writer = File.AppendText(RussianWordsPATH))
-                {
-                    foreach (string item in Presenter_Dictionary.russianLinesList)
-                    {
-                        writer.WriteLine(item);
-                    }
-                }
-                using (writer = File.AppendText(LatvianWordsPATH))
-                {
-                    foreach (string item in Presenter_Dictionary.latvianLinesList)
-                    {
-                        writer.WriteLine(item);
-                    }
-                }
-                using (writer = File.AppendText(DictionaryPATH))
-                {
-                    for (int i = 0; i < Presenter_Dictionary.russianLinesList.Count; i++)
-                    {
-                        writer.WriteLine($"{Presenter_Dictionary.latvianLinesList[i]} - {Presenter_Dictionary.russianLinesList[i]}");
-                    }
-                }
-            }
-            catch (Exception ex)
+            if (OutputField.Text != "")
             {
-                MessageBox.Show("Ошибка: " + ex.Message);
+                CorrectnessButton.IsEnabled = false;
+                OutputField.FontSize = 62;
+                GetAccessFile();
+                try
+                { //Firstly clear file:
+                    File.WriteAllText(DictionaryPATH, string.Empty);
+                    File.WriteAllText(RussianWordsPATH, string.Empty);
+                    File.WriteAllText(LatvianWordsPATH, string.Empty);
+                    //Write to file new information without deleted word -key and -value 
+                    using (var writer = File.AppendText(RussianWordsPATH))
+                    {
+                        foreach (string item in Presenter_Dictionary.russianLinesList)
+                        {
+                            writer.WriteLine(item);
+                        }
+                    }
+                    using (var writer = File.AppendText(LatvianWordsPATH))
+                    {
+                        foreach (string item in Presenter_Dictionary.latvianLinesList)
+                        {
+                            writer.WriteLine(item);
+                        }
+                    }
+                    using (var writer = File.AppendText(DictionaryPATH))
+                    {
+                        for (int i = 0; i < Presenter_Dictionary.russianLinesList.Count; i++)
+                        {
+                            writer.WriteLine($"{Presenter_Dictionary.latvianLinesList[i]} - {Presenter_Dictionary.russianLinesList[i]}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка: " + ex.Message);
+                }
+                finally
+                {
+                    File.SetAttributes(DictionaryPATH, FileAttributes.ReadOnly);
+                    File.SetAttributes(RussianWordsPATH, FileAttributes.ReadOnly);
+                    File.SetAttributes(LatvianWordsPATH, FileAttributes.ReadOnly);
+                }
             }
-            finally
-            { 
-                File.SetAttributes(DictionaryPATH, FileAttributes.ReadOnly);
-                File.SetAttributes(RussianWordsPATH, FileAttributes.ReadOnly);
-                File.SetAttributes(LatvianWordsPATH, FileAttributes.ReadOnly);
-            }
-            
         }
         private void GenerateButton_Click(object sender, RoutedEventArgs e) // means to generate a random word from dictionary
         {
@@ -253,5 +253,6 @@ namespace LV_RUS
             isCheckLv = false;
             CorrectnessButton.IsEnabled = true;
         }
+        #endregion
     }
 }

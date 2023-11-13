@@ -19,7 +19,7 @@ namespace LV_RUS.Models
         {
             get { return dictionary[index]; }
         }
-        public KeyValuePair<string, string> FirstOrDefault(Func <KeyValuePair<string,string>, bool> predicate)
+        public KeyValuePair<string, string> FirstOrDefault(Func <KeyValuePair<string,string>, bool> predicate)//"Overriding LINQ method FirstOrDefault"
         {
             return dictionary.FirstOrDefault(predicate);
         }

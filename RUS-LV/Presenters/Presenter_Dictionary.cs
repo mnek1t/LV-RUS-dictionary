@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -83,9 +82,9 @@ namespace LV_RUS.Presenters
             }
             
         } 
-        public (string, string, string) Add(string key, string value) // Adding words to collections
+        public string Add(string key, string value) // Adding words to collections
         {
-            return (dictionary.AddWord(key.ToLower(), value.ToLower()),key,value);
+            return dictionary.AddWord(key, value); ;
         }
         public string Remove(string key)// Removing words from collections
         { //There is no need apeal to model dictionary, because changing Presenter_Dictionary collections, we change Model_Dictionary collections
@@ -95,7 +94,7 @@ namespace LV_RUS.Presenters
                 russianLinesList.Remove(vardnica[key]);
                 latvianLinesList.Remove(key);
                 vardnica.Remove(key);
-                return dictionary.DeleteWord(key.ToLower());
+                return dictionary.DeleteWord(key);
             }
             return $"Слова {key} не найдено";
         }
@@ -123,10 +122,10 @@ namespace LV_RUS.Presenters
                         message = "Correct";
                     }
                 }
-                catch (Exception)
+                catch (KeyNotFoundException)
                 {
                     var keyValuePair = dictionary.FirstOrDefault(x => x.Value == value);
-                    message = "Incorrect:" + value + " - " + keyValuePair.Key;
+                    message = "Incorrect: " + value + " - " + keyValuePair.Key;
                 }
             }
             else

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using LV_RUS.Presenters;
 
@@ -6,37 +7,19 @@ namespace LV_RUS
 {
     public sealed partial class AddingWindow : Window
     {
+        public delegate bool Predicate(string text);
+        private Predicate lang1;
         private Presenter_Dictionary presenter;
         private TextBox outputField;
-        private string key;
-        private string value;
-        public AddingWindow(TextBox outputField, string key, string value)
+        public KeyValuePair<string,string> KeyValue { get; private set; }
+        //public string Key { get; private set; }
+        //public string Value { get; private set; }
+        public AddingWindow(TextBox outputField, Predicate lang1)
         { // initialize variables
             this.outputField = outputField; // we get an access to private TextBox to write a value there
-            this.key = key;
-            this.value = value;
             presenter = new Presenter_Dictionary(this);
             InitializeComponent();
-        }
-        public (string, string) ReturnWordsToFile() // return words
-        {
-            return (key, value);
-        }
-        private bool IsLatvianInput(string text) // if user entered in latvian 
-        {
-            if (text != null)
-            {
-                foreach (char c in text) // we check each character of the string 
-                {
-                    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == 'ž') || (c == 'č') || (c == 'ķ') || (c == 'š');
-                }
-                return false;
-            }
-            else
-            {
-                return false;
-
-            }
+            this.lang1 = lang1;
         }
         private bool IsRussianInput(string text) // if user entered in russian
         {
@@ -56,17 +39,21 @@ namespace LV_RUS
         }
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsRussianInput(RUInput.Text) || !IsLatvianInput(LVInput.Text))
+            if (!IsRussianInput(RUInput.Text) || !lang1(LVInput.Text))
             {
                 MessageBox.Show("Введите слова на русском и на латышском соответсвенно!", "Внимание!");        
             }
             else
-            { // TO TRY: REDO INITIALIZATION OF KEY AND VALUE NOT USING A TUPLES
-                outputField.Text = presenter.Add(LVInput.Text.ToLower(), RUInput.Text.ToLower()).Item1;
-                key = presenter.Add(LVInput.Text.ToLower(), RUInput.Text.ToLower()).Item2;
-                value = presenter.Add(LVInput.Text.ToLower(), RUInput.Text.ToLower()).Item3;
+            {
+                outputField.Text = presenter.Add(LVInput.Text.ToLower(), RUInput.Text.ToLower());
+                KeyValue = new KeyValuePair<string, string>(LVInput.Text, RUInput.Text);
                 this.Close();
             }
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
